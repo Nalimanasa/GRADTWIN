@@ -1,0 +1,51 @@
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header{
+    display:flex;
+    background-color:wheat;
+    width:1350px;
+}
+
+.sidenav{
+    display:flex;
+    color:red;
+}
+
+li{
+    display:flex;
+    padding-right:20px;
+    list-style:none;
+}
+ul{
+    display:flex;
+    padding:0px 220px;
+    margin:30px;
+}
+input{
+    padding:0px; */
+
+img{
+    float:right;
+    height:500px;
+    width:300px;
+}
+.image{
+     width:100%;
+    height:100%;
+   
+}
+ p{
+    width:100%;
+    height:75px;
+    padding:0px 40px;
+ }
+h1{
+    padding:0px 30px;
+}
+h2{
+    padding:0px 30px;
+}

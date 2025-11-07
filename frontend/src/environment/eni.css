@@ -1,0 +1,23 @@
+#table ,.th,.td{
+      border:1px solid white;
+      width:400px;
+}
+
+.pending{
+    text-align:center;
+    background-image:url('https://www.shutterstock.com/image-photo/factory-aluminum-pvc-windows-doors-260nw-1055814968.jpg');
+    color:white;
+    background-size: cover;
+    background-position: center;
+    height:100%;
+    width:100%;
+    border:1px solid white;
+   
+}
+.approved{
+    text-align:center;
+    color:black;
+    padding:0px 150px;
+    height:300px;
+    width:100%;
+}

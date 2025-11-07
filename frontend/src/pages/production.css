@@ -1,0 +1,27 @@
+.list{
+    display:flex;
+    width:1350px;
+    height:500px;
+    /* overflow: hidden; */
+    /* animation: scrollImg 5s linear infinite;*/
+} 
+.list1{
+     height:375px;
+     width:320px;
+}
+img{
+    width:250px;
+    height:100px;
+}
+.main{
+     width:1350px;
+    height:250px;
+}
+.mainimage{
+    height:200px;
+    width:300px;
+}
+.paragraph{
+    width:250px;
+    height:250px;
+}
