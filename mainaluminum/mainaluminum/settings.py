@@ -28,7 +28,8 @@ SECRET_KEY = 'django-insecure-d4fq46^r!sn&c6m))k#!1z%-dw+a6bsi))xum-w9x($fd=nagf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://gradtwin-backend.onrender.com']
+ALLOWED_HOSTS = ['gradtwin-backend.onrender.com', 'localhost', '127.0.0.1', 'gradtwin-frontend.onrender.com']
+
 
 
 # Application definition
@@ -147,6 +148,7 @@ APPEND_SLASH = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "gradtwin-backend.onrender.com"
     "https://gradtwin-backend.onrender.com"
     
 ]
