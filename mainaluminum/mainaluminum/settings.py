@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-d4fq46^r!sn&c6m))k#!1z%-dw+a6bsi))xum-w9x($fd=nagf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://gradtwin-backend.onrender.com']
 
 
 # Application definition
@@ -95,11 +95,14 @@ WSGI_APPLICATION = 'mainaluminum.wsgi.application'
 load_dotenv()  # load environment variables
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
+        'default':{
+            'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'gradtwin',
+        'USER': 'gradtwin_user',
+        'PASSWORD': 'MM3iOofLg1lADCiUf6Flxxpc7UJQ7TBn',
+        'HOST': 'dpg-d470bire5dus73dlm4h0-a.oregon-postgres.render.com',  # ← this is the problem
+        'PORT': '5432',
+    }
 }
 
 # Password validation
@@ -144,9 +147,8 @@ APPEND_SLASH = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-     "http://127.0.0.1:3000",
-     "http://localhost:3001",
-     "http://127.0.0.1:3001",
+    "https://gradtwin-backend.onrender.com"
+    
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
