@@ -149,9 +149,9 @@ APPEND_SLASH = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "gradtwin-backend.onrender.com"
-    "https://gradtwin-frontend-agjg.onrender.com"
-    "https://gradtwin-backend.onrender.com"
+    "http://gradtwin-backend.onrender.com",
+    "https://gradtwin-frontend-agjg.onrender.com",
+    "https://gradtwin-backend.onrender.com",
     
 ]
 
