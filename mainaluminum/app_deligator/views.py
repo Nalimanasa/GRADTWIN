@@ -1,6 +1,4 @@
-from django.shortcuts import render
-
-# Create your views here.
+import pandas as pd
 from django.shortcuts import render
 from django.http import HttpResponse ,JsonResponse
 from django.shortcuts import render
@@ -41,8 +39,14 @@ def del_register_api(request):
             country=data['country'],
             pincode=data['pincode'],
             address=data['address'],
+            role=data['role']
         )       
-        return JsonResponse({"id": item.id, "name": item.name, "email": item.email, "username": item.username, "password": item.password, "gender": item.gender,"phone": item.phone,"city": item.city,"state": item.state, "country": item.country, "address": item.address,"pincode":item.pincode })
+        return JsonResponse({"id": item.id, "name": item.name,
+                              "email": item.email, "username": item.username,
+                                "password": item.password, "gender": item.gender,
+                                "phone": item.phone,"city": item.city,"state": item.state,
+                                  "country": item.country, "address": item.address,"pincode":item.pincode,
+                                   "role":item.role })
     elif request.method == 'GET':  # 👈 Add this
         items = list(Item.objects.values())  # get all items as a list of dicts
         return JsonResponse(items, safe=False)
@@ -264,7 +268,39 @@ def del_feedback(request):
         print("Error:", e)
         return JsonResponse({"error": str(e)}, status=400)
 
+@csrf_exempt
+@require_http_methods(["GET"])
+def deligator_data(request):
+    role = request.GET.get("role")
+    approved = request.GET.get("approved")
 
+    # Filter data dynamically
+    items = Item.objects.all()
+
+    if role:
+        items = items.filter(role=role)
+    if approved is not None:
+        approved_val = approved.lower() == "true"
+        items = items.filter(approved=approved_val)
+
+    if not items.exists():
+        return HttpResponse("No data found", content_type="text/plain")
+
+    # Convert queryset to dataframe
+    df = pd.DataFrame(list(items.values(
+        "id", "name", "email", "username", "role", "approved",
+        "city", "state", "country", "pincode"
+    )))
+
+    # Prepare HTTP response
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="registered_users.xlsx"'
+
+    # Write Excel file
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name="Users")
+
+    return response
 
 def _str_(self):
     return self.username

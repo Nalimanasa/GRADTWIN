@@ -14,5 +14,5 @@ urlpatterns = [
     path('agent_material_view/',views.agent_material_view,name='materialview'),
     path('agent_material_view_Id/<int:item_id>/',views.agent_material_view_Id,name="materialview"),
     path('agent_material_approved/',views.agent_material_approved,name="agentmaterialapproved"),
-    
+    path('agent_data/',views.agent_data,name="registerd data")
 ]    

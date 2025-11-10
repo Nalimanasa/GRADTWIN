@@ -37,8 +37,14 @@ def eni_register_api(request):
             country=data['country'],
             pincode=data['pincode'],
             address=data['address'],
+            role=data['role']
         )       
-        return JsonResponse({"id": item.id, "name": item.name, "email": item.email, "username": item.username, "password": item.password, "gender": item.gender,"phone": item.phone,"city": item.city,"state": item.state, "country": item.country, "address": item.address})
+        return JsonResponse({"id": item.id, "name": item.name,
+                              "email": item.email, "username": item.username,
+                                "password": item.password, "gender": item.gender,
+                                "phone": item.phone,"city": item.city,"state": item.state, 
+                                "country": item.country, "address": item.address ,
+                                "role":item.role})
     elif request.method == 'GET':  # 👈 Add this
         items = list(Item.objects.values())  # get all items as a list of dicts
         return JsonResponse(items, safe=False)
@@ -186,6 +192,8 @@ def eni_feedback(request):
         "waste": round(waste, 2),
         "feedback": feedback_msg
     })
+
+
 
 def _str_(self):
     return self.username

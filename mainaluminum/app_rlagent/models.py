@@ -16,6 +16,8 @@ class  Item(models.Model):
     status=models.CharField(max_length=100,default='pending')
     is_superuser=models.BooleanField(default=False)
     is_staff=models.BooleanField(default=False)
+    role = models.CharField(max_length=50, default='agent') 
+    approved = models.BooleanField(default=False)  
 
 class Material(models.Model):
     bauxite=models.FloatField(max_length=50 ,default="0")
@@ -25,6 +27,7 @@ class Material(models.Model):
     temperature=models.FloatField(max_length=50 ,default="0")
     residue = models.FloatField(null=True, blank=True)
     status=models.CharField(max_length=50,default="pending")
+   
 
 
 # class Residue(models.Model):
