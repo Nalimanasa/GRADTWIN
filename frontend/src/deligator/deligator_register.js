@@ -16,7 +16,8 @@ function Deligatorregister(){
         state:'',
         country:'',
         pincode:'',
-        address:''
+        address:'',
+        role:''
     })
     const[items,setItems]=useState([]);
 

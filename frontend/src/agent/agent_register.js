@@ -52,7 +52,8 @@ function Register(){
         state:'',
         country:'',
         pincode:'',
-        address:''
+        address:'',
+        role:''
             });
              fetchItems();
         })

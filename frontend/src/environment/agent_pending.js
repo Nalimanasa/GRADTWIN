@@ -28,6 +28,18 @@ function Agentpending() {
     }
   }
 
+//   const downloadExcel = async () => {
+//   const response = await fetch("https://your-backend.onrender.com/agent_approve/");
+//   const blob = await response.blob();
+//   const url = window.URL.createObjectURL(blob);
+//   const a = document.createElement("a");
+//   a.href = url;
+//   a.download = "registered_users.xlsx";
+//   document.body.appendChild(a);
+//   a.click();
+//   a.remove();
+// };
+
   return (
     <div  className="pending">
         <center><br/><br/>
@@ -62,6 +74,16 @@ function Agentpending() {
             ))}
           </tbody>
       </table>
+      <button  onClick={() => window.open("https://your-backend.onrender.com/agent_data/")}
+                       style={{ padding: "8px 16px",
+                                backgroundColor: "#28a745",
+                                color: "white",
+                                 border: "none",
+                                 borderRadius: "5px",
+                                cursor: "pointer"
+                               }}>
+                               Download
+                            </button>
       </center>
       </div>
   );

@@ -62,6 +62,16 @@ function Scrappending() {
             ))}
           </tbody>
       </table>
+      <button  onClick={() => window.open("https://your-backend.onrender.com/scrap_data/")}
+                       style={{ padding: "8px 16px",
+                                backgroundColor: "#28a745",
+                                color: "white",
+                                 border: "none",
+                                 borderRadius: "5px",
+                                cursor: "pointer"
+                               }}>
+                               Download
+                            </button>
       </center>
       </div>
   );

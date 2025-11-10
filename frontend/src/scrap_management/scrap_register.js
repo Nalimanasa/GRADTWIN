@@ -16,7 +16,8 @@ function Scrapregister(){
         state:'',
         country:'',
         pincode:'',
-        address:''
+        address:'',
+        role:''
     })
     const[items,setItems]=useState([]);
 
