@@ -37,7 +37,7 @@ function Register(){
     const addItem = (e) =>{
         console.log("Submitting form:", form);
         e.preventDefault();
-        axios.post('http://127.0.0.1:8000/agent_register_api/',form ,{
+        axios.post('"https://gradtwin-backend.onrender.com/agent_register_api/',form ,{
   headers: { "Content-Type": "application/json" }
 })
         .then(() =>{

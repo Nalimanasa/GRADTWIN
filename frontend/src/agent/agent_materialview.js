@@ -7,7 +7,7 @@ function Material() {
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/agent_material/')
+    axios.get('https://gradtwin-backend.onrender.com/agent_material/')
       .then(res => setItems(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -15,7 +15,7 @@ function Material() {
   // ✅ Load selected material by ID
   const approveItem = async () => {
     try {
-      const res = await axios.post(`http://127.0.0.1:8000/agent_material_view/`);
+      const res = await axios.post(`https://gradtwin-backend.onrender.com/agent_material_view/`);
       setSelectedItem(res.data); 
       alert('material details successfull') // ✅ send material details to next page
           } catch (err) {

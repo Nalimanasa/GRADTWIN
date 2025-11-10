@@ -19,7 +19,7 @@ function Pending() {
   
    const approveItem = async (itemId) => {
     try {
-      await axios.post(`http://127.0.0.1:8000/agent_pending_Id/${itemId}/`);
+      await axios.post(`https://gradtwin-backend.onrender.com/agent_pending_Id/${itemId}/`);
       // Remove the approved item from the list
       setItems(items.filter(item => item.id !==itemId));
       alert('Item approved successfully!');

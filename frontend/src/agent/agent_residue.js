@@ -21,7 +21,7 @@ function Residue() {
 
   const fetchResidueData = () => {
     axios
-      .get("http://127.0.0.1:8000/scrap_feedback/")
+      .get("https://gradtwin-backend.onrender.com/scrap_feedback/")
       .then((res) => setResult(res.data))
       .catch((err) => console.error(err));
   };

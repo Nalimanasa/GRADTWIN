@@ -10,7 +10,7 @@ function Adminlogin(props){
      const handlelogin= async (e) => {
          e.preventDefault();
           try{
-             const res=await axios.post("http://127.0.0.1:8000/eni_adminlogin/",
+             const res=await axios.post("https://gradtwin-backend.onrender.com/eni_adminlogin/",
                  { username: form.username, password: form.password },
                   { headers:{ 'content-type':'application/json' }, });
                    if (res.status === 200)  {

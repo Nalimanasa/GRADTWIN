@@ -11,7 +11,7 @@ function Approve(){
   }, []);
 
   const fetchItems = () => {
-    axios.get(`http://127.0.0.1:8000/del_approve/`)
+    axios.get(`https://gradtwin-backend.onrender.com/del_approve/`)
       .then(res =>  setItems(res.data))
       .catch(err => console.error(err));
   };

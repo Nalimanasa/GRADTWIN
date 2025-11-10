@@ -21,7 +21,7 @@ function Analyse() {
 
     console.log("Sending JSON:", payload);
 
-    const response = await fetch("http://127.0.0.1:8000/agent_material/", {
+    const response = await fetch("https://gradtwin-backend.onrender.com/agent_material/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

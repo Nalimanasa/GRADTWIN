@@ -11,14 +11,14 @@ function Delpending() {
   }, []);
 
   const fetchItems = () => {
-    axios.get('http://127.0.0.1:8000/del_pending/')
+    axios.get('https://gradtwin-backend.onrender.com/del_pending/')
       .then(res =>  setItems(res.data))
       .catch(err => console.error(err));
   };
   
    const approveItem = async (itemId) => {
     try {
-      await axios.post(`http://127.0.0.1:8000/del_pending_Id/${itemId}/`);
+      await axios.post(`https://gradtwin-backend.onrender.com/del_pending_Id/${itemId}/`);
       // Remove the approved item from the list
       setItems(items.filter(item => item.id !==itemId));
       alert('Item approved successfully!');

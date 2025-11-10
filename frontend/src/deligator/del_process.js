@@ -10,7 +10,7 @@ function Process() {
 
   const fetchItems = () => {
     axios
-      .get("http://127.0.0.1:8000/del_material_approved/")
+      .get("https://gradtwin-backend.onrender.com/del_material_approved/")
       .then((response) => setItems(response.data))
       .catch((err) => console.error(err));
   };
@@ -26,7 +26,7 @@ function Process() {
     };
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/scrap_feedback/", {
+      const res = await fetch("https://gradtwin-backend.onrender.com/scrap_feedback/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
