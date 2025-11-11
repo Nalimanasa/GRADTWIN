@@ -28,6 +28,18 @@ function Scrappending() {
     }
   }
 
+  const downloadExcel = async () => {
+  const response = await fetch("https://gradtwin-backend.onrender.com/scrap_data/?approved=true");
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "registered_users.xlsx";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+};
+
   return (
     <div className="pending">
         <center><br/><br/>
@@ -62,7 +74,7 @@ function Scrappending() {
             ))}
           </tbody>
       </table>
-      <button  onClick={() => window.open("https://your-backend.onrender.com/scrap_data/")}
+      <button  onClick={downloadExcel}
                        style={{ padding: "8px 16px",
                                 backgroundColor: "#28a745",
                                 color: "white",
