@@ -39,7 +39,7 @@ def del_register_api(request):
             country=data['country'],
             pincode=data['pincode'],
             address=data['address'],
-            role=data.get['role','deligator']
+            role=data.get('role','deligator')
         )       
         return JsonResponse({"id": item.id, "name": item.name,
                               "email": item.email, "username": item.username,
