@@ -41,7 +41,7 @@ def agent_register_api(request):
             country=data['country'],
             pincode=data['pincode'],
             address=data['address'],
-            role=data['role','agent']
+            role=data.get['role','agent']
         )       
         return JsonResponse({"id": item.id, "name": item.name, 
                              "email": item.email, "username": item.username,
