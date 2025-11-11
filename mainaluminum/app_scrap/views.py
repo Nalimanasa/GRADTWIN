@@ -13,6 +13,7 @@ from rest_framework.response import Response
 import random
 import json
 import openpyxl
+import io
 
 
 def scrap_home(request):
@@ -269,38 +270,32 @@ def export_approved_materials_to_excel(request):
     wb.save(response)
     return response
 
+
 @csrf_exempt
-@require_http_methods(["GET"])
+@require_http_methods(['GET'])
 def scrap_data(request):
-    role = request.GET.get("role")
-    approved = request.GET.get("approved")
+    approved = request.GET.get('approved', 'false').lower() == 'true'
+    
+    if approved:
+        queryset = Item.objects.filter(status__iexact='approved')
+    else:
+        queryset = Item.objects.all()
 
-    # Filter data dynamically
-    items = Item.objects.all()
+    if not queryset.exists():
+        return HttpResponse("No data available.", content_type="text/plain")
 
-    if role:
-        items = items.filter(role=role)
-    if approved is not None:
-        approved_val = approved.lower() == "true"
-        items = items.filter(approved=approved_val)
+    df = pd.DataFrame(list(queryset.values()))
+    buffer = io.BytesIO()
 
-    if not items.exists():
-        return HttpResponse("No data found", content_type="text/plain")
+    with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Users')
 
-    # Convert queryset to dataframe
-    df = pd.DataFrame(list(items.values(
-        "id", "name", "email", "username", "role", "approved",
-        "city", "state", "country", "pincode"
-    )))
-
-    # Prepare HTTP response
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    buffer.seek(0)
+    response = HttpResponse(
+        buffer.getvalue(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
     response['Content-Disposition'] = 'attachment; filename="registered_users.xlsx"'
-
-    # Write Excel file
-    with pd.ExcelWriter(response, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False, sheet_name="Users")
-
     return response
 
 

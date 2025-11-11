@@ -17,7 +17,7 @@ class  Item(models.Model):
     is_superuser=models.BooleanField(default=False)
     is_staff=models.BooleanField(default=False)
     role = models.CharField(max_length=50, default='deligator')
-    approved = models.BooleanField(default=False)   
+    approved = models.BooleanField(default=True)   
 
 class Material(models.Model):
     bauxite=models.FloatField(max_length=50 ,default="0")

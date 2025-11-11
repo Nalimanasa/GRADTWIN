@@ -15,5 +15,5 @@ urlpatterns = [
     path('del_material_view_Id/<int:item_id>/',views.del_material_view_Id,name="materialview"),
     path('del_material_approved/',views.del_material_approved,name="agentmaterialapproved"),
     path('del_process/',views.del_process,name="agent_process"),
-    path('del_data/',views.deligator_data,name="export_to_excel"),
+    path('del_data/?approved=true',views.del_data,name="del_data"),
 ]    

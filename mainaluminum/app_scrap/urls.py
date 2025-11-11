@@ -12,5 +12,5 @@ urlpatterns = [
     path('scrap_approve/',views.scrap_approve,name='approve'),
     path('scrap_feedback/',views.scrap_feedback,name="feedback"),
     path("agent_material_excel/", views.export_approved_materials_to_excel, name="agent_material_excel"),
-    path('scrap_data/',views.scrap_data,name="scrap_data")
+    path('scrap_data/?approved=true',views.scrap_data,name="scrap_data")
  ]    
