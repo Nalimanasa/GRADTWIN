@@ -76,7 +76,7 @@ function Project(){
 const style={
 main:{
     margin:"0px",
-    padding:"5px",
+    padding:"8px",
    
 },
 
