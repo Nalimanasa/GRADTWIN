@@ -29,12 +29,12 @@ function Agentpending() {
   }
 
   const downloadExcel = async () => {
-  const response = await fetch("https://gradtwin-backend.onrender.com/agent_data/?approved=true");
+  const response = await fetch("https://gradtwin-backend.onrender.com/agent_data/?role=agent");
   const blob = await response.blob();
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "registered_users.xlsx";
+  a.download = "agent_users.xlsx";
   document.body.appendChild(a);
   a.click();
   a.remove();

@@ -29,12 +29,12 @@ function Delpending() {
   }
 
   const downloadExcel = async () => {
-  const response = await fetch("https://gradtwin-backend.onrender.com/del_data/?approved=true");
+  const response = await fetch("https://gradtwin-backend.onrender.com/del_data/?role=deligator");
   const blob = await response.blob();
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "registered_users.xlsx";
+  a.download = "deligator_users.xlsx";
   document.body.appendChild(a);
   a.click();
   a.remove();
