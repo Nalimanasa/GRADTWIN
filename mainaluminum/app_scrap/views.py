@@ -278,27 +278,29 @@ def scrap_data(request):
     if role == 'scrap management':
         queryset = Scrap.objects.all()
     approved = request.GET.get('approved', 'false').lower() == 'true'
-    role = request.GET.get('role', '').strip().lower()  # get role from URL if provided
+    role = request.GET.get('role', '').strip().lower()
 
-    # Base queryset
     queryset = Scrap.objects.all()
-
-    # Apply approval filter
     if approved:
         queryset = queryset.filter(status__iexact='approved')
-
-    # Apply role filter (optional)
     if role:
         queryset = queryset.filter(role__iexact=role)
 
-    # If no records found
     if not queryset.exists():
         return HttpResponse("No data available.", content_type="text/plain")
 
-    # Convert queryset to DataFrame
-    df = pd.DataFrame(list(queryset.values()))
+    # Convert queryset to clean DataFrame
+    data = list(queryset.values())
+    df = pd.DataFrame(data)
 
-    # Write to Excel
+    # Drop any invalid columns (Django internal fields or JSON objects)
+    for col in df.columns:
+        if df[col].apply(lambda x: isinstance(x, (dict, list, set))).any():
+            df.drop(columns=[col], inplace=True)
+
+    # Replace NaN/None to avoid Excel corruption
+    df = df.fillna('')
+
     buffer = io.BytesIO()
     with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
         df.to_excel(writer, index=False, sheet_name='Users')
@@ -309,13 +311,10 @@ def scrap_data(request):
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-    # File name will reflect role automatically
     filename = f"{role or 'all'}_users.xlsx"
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     return response
-
-
 def _str_(self):
     return self.username
 
