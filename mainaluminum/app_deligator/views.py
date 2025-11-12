@@ -4,7 +4,7 @@ from django.http import HttpResponse ,JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
-from app_rlagent.models import Item ,Material
+from app_deligator.models import Deligator ,Material
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, parser_classes
@@ -19,7 +19,7 @@ def del_home(request):
     return HttpResponse("Welcome to GradTwin Project!")
 
 def del_register(request):
-    items=Item.objects.all().values()
+    items=Deligator.objects.all().values()
     # return JsonResponse(list(items),safe=False)
     return HttpResponse('this is register page')
                         
@@ -28,7 +28,7 @@ def del_register(request):
 def del_register_api(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode("utf-8"))
-        item=Item.objects.create(
+        item=Deligator.objects.create(
             name=data['name'],
             email=data['email'],
             username=data['username'],
@@ -49,7 +49,7 @@ def del_register_api(request):
                                   "country": item.country, "address": item.address,"pincode":item.pincode,
                                    "role":item.role })
     elif request.method == 'GET':  # 👈 Add this
-        items = list(Item.objects.values())  # get all items as a list of dicts
+        items = list(Deligator.objects.values())  # get all items as a list of dicts
         return JsonResponse(items, safe=False)
     else:  
         return JsonResponse({"error":"invalid request"},status=400) 
@@ -58,7 +58,7 @@ def del_register_api(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def del_userlogin(request):
-    items=Item.objects.all().values()
+    items=Deligator.objects.all().values()
     if request.method =='POST':
         try:            
             data=json.loads(request.body.decode('utf-8'))
@@ -69,7 +69,7 @@ def del_userlogin(request):
                 return JsonResponse({"error": "Missing username or password"}, status=400)
 
             
-            user=Item.objects.filter(username=username,password=password).first()
+            user=Deligator.objects.filter(username=username,password=password).first()
             if user is not None:
                  if user.is_superuser:
                     role = "admin"
@@ -102,7 +102,7 @@ def del_userlogin(request):
 @require_http_methods(['GET','POST'])
 def del_pending(request):
     # Filter first, then call values()
-    items = Item.objects.filter(status='pending').values()
+    items = Deligator.objects.filter(status__iexact='pending').values()
     return JsonResponse(list(items), safe=False)
 
 @csrf_exempt
@@ -110,11 +110,11 @@ def del_pending(request):
 def del_pending_Id(request,item_id):
    if request.method =='POST':
        try:
-           item=Item.objects.get(id=item_id)
+           item=Deligator.objects.get(id=item_id)
            item.status='approved'
            item.save()
            return JsonResponse({"message":'item approved'})
-       except Item.DoesNotExist:
+       except Deligator.DoesNotExist:
            return JsonResponse({"message":'error occured'},status=404)
    else:
        return HttpResponse(alert='invalid request')
@@ -122,7 +122,7 @@ def del_pending_Id(request,item_id):
 @csrf_exempt
 @require_http_methods(["GET","POST"])      
 def del_approve(request):
-    items=Item.objects.filter(status='approved').values()
+    items=Deligator.objects.filter(status='approved').values()
     return JsonResponse(list(items),safe=False)
 
 @csrf_exempt
@@ -272,29 +272,48 @@ def del_feedback(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def del_data(request):
+    role = request.GET.get('role', None)
+    if role == 'deligator':
+        queryset = Deligator.objects.all()
     approved = request.GET.get('approved', 'false').lower() == 'true'
-    
+    role = request.GET.get('role', '').strip().lower()
+
+    queryset = Deligator.objects.all()
     if approved:
-        queryset = Item.objects.filter(status__iexact='approved')
-    else:
-        queryset = Item.objects.all()
+        queryset = queryset.filter(status__iexact='approved')
+    if role:
+        queryset = queryset.filter(role__iexact=role)
 
     if not queryset.exists():
         return HttpResponse("No data available.", content_type="text/plain")
 
-    df = pd.DataFrame(list(queryset.values()))
-    buffer = io.BytesIO()
+    # Convert queryset to clean DataFrame
+    data = list(queryset.values())
+    df = pd.DataFrame(data)
 
+    # Drop any invalid columns (Django internal fields or JSON objects)
+    for col in df.columns:
+        if df[col].apply(lambda x: isinstance(x, (dict, list, set))).any():
+            df.drop(columns=[col], inplace=True)
+
+    # Replace NaN/None to avoid Excel corruption
+    df = df.fillna('')
+
+    buffer = io.BytesIO()
     with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
         df.to_excel(writer, index=False, sheet_name='Users')
 
     buffer.seek(0)
     response = HttpResponse(
-        buffer.getvalue(),
+        buffer.read(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-    response['Content-Disposition'] = 'attachment; filename="registered_users.xlsx"'
+
+    filename = f"{role or 'all'}_users.xlsx"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
     return response
+
 
 def _str_(self):
     return self.username

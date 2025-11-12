@@ -4,7 +4,7 @@ from django.http import HttpResponse ,JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
-from app_rlagent.models import Item ,Material
+from app_scrap.models import Scrap ,Material
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, parser_classes
@@ -20,7 +20,7 @@ def scrap_home(request):
     return HttpResponse("Welcome to GradTwin Project!")
 
 def scrap_register(request):
-    items=Item.objects.all().values()
+    items=Scrap.objects.all().values()
     # return JsonResponse(list(items),safe=False)
     return HttpResponse('this is register page')
                         
@@ -29,7 +29,7 @@ def scrap_register(request):
 def scrap_register_api(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode("utf-8"))
-        item=Item.objects.create(
+        item=Scrap.objects.create(
             name=data['name'],
             email=data['email'],
             username=data['username'],
@@ -50,7 +50,7 @@ def scrap_register_api(request):
                                   "country": item.country, "address": item.address,"pincode":item.pincode ,
                                    "role":item.role })
     elif request.method == 'GET':  # 👈 Add this
-        items = list(Item.objects.values())  # get all items as a list of dicts
+        items = list(Scrap.objects.values())  # get all items as a list of dicts
         return JsonResponse(items, safe=False)
     else:  
         return JsonResponse({"error":"invalid request"},status=400) 
@@ -59,7 +59,7 @@ def scrap_register_api(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def scrap_userlogin(request):
-    items=Item.objects.all().values()
+    items=Scrap.objects.all().values()
     if request.method =='POST':
         try:            
             data=json.loads(request.body.decode('utf-8'))
@@ -70,7 +70,7 @@ def scrap_userlogin(request):
                 return JsonResponse({"error": "Missing username or password"}, status=400)
 
             
-            user=Item.objects.filter(username=username,password=password).first()
+            user=Scrap.objects.filter(username=username,password=password).first()
             if user is not None:
                  if user.is_superuser:
                     role = "admin"
@@ -103,7 +103,7 @@ def scrap_userlogin(request):
 @csrf_exempt
 @require_http_methods(['GET','POST'])
 def scrap_pending(request):
-    items = Item.objects.filter(status='pending').values()
+    items = Scrap.objects.filter(status__iexact='pending').values()
     return JsonResponse(list(items), safe=False)
 
 @csrf_exempt
@@ -111,11 +111,11 @@ def scrap_pending(request):
 def scrap_pending_Id(request,item_id):
    if request.method =='POST':
        try:
-           item=Item.objects.get(id=item_id)
+           item=Scrap.objects.get(id=item_id)
            item.status='approved'
            item.save()
            return JsonResponse({"message":'item approved'})
-       except Item.DoesNotExist:
+       except Scrap.DoesNotExist:
            return JsonResponse({"message":'error occured'},status=404)
    else:
        return HttpResponse(alert='invalid request')
@@ -123,7 +123,7 @@ def scrap_pending_Id(request,item_id):
 @csrf_exempt
 @require_http_methods(["GET","POST"])      
 def scrap_approve(request):
-    items=Item.objects.filter(status='approved').values()
+    items=Scrap.objects.filter(status='approved').values()
     return JsonResponse(list(items),safe=False)
 
 
@@ -274,28 +274,45 @@ def export_approved_materials_to_excel(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def scrap_data(request):
+    role = request.GET.get('role', None)
+    if role == 'scrap management':
+        queryset = Scrap.objects.all()
     approved = request.GET.get('approved', 'false').lower() == 'true'
-    
-    if approved:
-        queryset = Item.objects.filter(status__iexact='approved')
-    else:
-        queryset = Item.objects.all()
+    role = request.GET.get('role', '').strip().lower()  # get role from URL if provided
 
+    # Base queryset
+    queryset = Scrap.objects.all()
+
+    # Apply approval filter
+    if approved:
+        queryset = queryset.filter(status__iexact='approved')
+
+    # Apply role filter (optional)
+    if role:
+        queryset = queryset.filter(role__iexact=role)
+
+    # If no records found
     if not queryset.exists():
         return HttpResponse("No data available.", content_type="text/plain")
 
+    # Convert queryset to DataFrame
     df = pd.DataFrame(list(queryset.values()))
-    buffer = io.BytesIO()
 
+    # Write to Excel
+    buffer = io.BytesIO()
     with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
         df.to_excel(writer, index=False, sheet_name='Users')
 
     buffer.seek(0)
     response = HttpResponse(
-        buffer.getvalue(),
+        buffer.read(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-    response['Content-Disposition'] = 'attachment; filename="registered_users.xlsx"'
+
+    # File name will reflect role automatically
+    filename = f"{role or 'all'}_users.xlsx"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
     return response
 
 

@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class  Item(models.Model):
+class  Deligator(models.Model):
     name=models.CharField(max_length=100  , default="Unknown")
     email=models.CharField(max_length=100  , default="Unknown")
     username=models.CharField(max_length=100  , default="Unknown")
@@ -17,7 +17,7 @@ class  Item(models.Model):
     is_superuser=models.BooleanField(default=False)
     is_staff=models.BooleanField(default=False)
     role = models.CharField(max_length=50, default='deligator')
-    approved = models.BooleanField(default=True)   
+    approved = models.BooleanField(default=False)   
 
 class Material(models.Model):
     bauxite=models.FloatField(max_length=50 ,default="0")

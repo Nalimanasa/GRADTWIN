@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class  Item(models.Model):
+class  Scrap(models.Model):
     name=models.CharField(max_length=100  , default="Unknown")
     email=models.CharField(max_length=100  , default="Unknown")
     username=models.CharField(max_length=100  , default="Unknown")
