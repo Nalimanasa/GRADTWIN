@@ -16,7 +16,7 @@ function Userlogin(props){
     const handlelogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://gradtwin-backend.onrender.com/agent_userlogin/", {
+      const res = await axios.post("https://gradtwin-backend.onrender.com/scrap_userlogin/", {
         username: form.username,
         password: form.password
       });
