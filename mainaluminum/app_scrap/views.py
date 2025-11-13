@@ -274,12 +274,8 @@ def export_approved_materials_to_excel(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def scrap_data(request):
-    role = request.GET.get('role', None)
-    if role == 'scrap management':
-        queryset = Scrap.objects.all()
     approved = request.GET.get('approved', 'false').lower() == 'true'
     role = request.GET.get('role', '').strip().lower()
-
     queryset = Scrap.objects.all()
     if approved:
         queryset = queryset.filter(status__iexact='approved')

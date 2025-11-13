@@ -272,9 +272,6 @@ def del_feedback(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def del_data(request):
-    role = request.GET.get('role', None)
-    if role == 'deligator':
-        queryset = Deligator.objects.all()
     approved = request.GET.get('approved', 'false').lower() == 'true'
     role = request.GET.get('role', '').strip().lower()
 
