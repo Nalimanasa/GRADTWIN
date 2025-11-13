@@ -273,29 +273,27 @@ def del_feedback(request):
 @require_http_methods(['GET'])
 def del_data(request):
     approved = request.GET.get('approved', 'false').lower() == 'true'
-    role = request.GET.get('role', '').strip().lower()
+    role = request.GET.get('role', '').strip().lower()  # get role from URL if provided
 
+    # Base queryset
     queryset = Deligator.objects.all()
+
+    # Apply approval filter
     if approved:
         queryset = queryset.filter(status__iexact='approved')
+
+    # Apply role filter (optional)
     if role:
         queryset = queryset.filter(role__iexact=role)
 
+    # If no records found
     if not queryset.exists():
         return HttpResponse("No data available.", content_type="text/plain")
 
-    # Convert queryset to clean DataFrame
-    data = list(queryset.values())
-    df = pd.DataFrame(data)
+    # Convert queryset to DataFrame
+    df = pd.DataFrame(list(queryset.values()))
 
-    # Drop any invalid columns (Django internal fields or JSON objects)
-    for col in df.columns:
-        if df[col].apply(lambda x: isinstance(x, (dict, list, set))).any():
-            df.drop(columns=[col], inplace=True)
-
-    # Replace NaN/None to avoid Excel corruption
-    df = df.fillna('')
-
+    # Write to Excel
     buffer = io.BytesIO()
     with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
         df.to_excel(writer, index=False, sheet_name='Users')
@@ -306,10 +304,12 @@ def del_data(request):
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
+    # File name will reflect role automatically
     filename = f"{role or 'all'}_users.xlsx"
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     return response
+
 
 
 def _str_(self):
