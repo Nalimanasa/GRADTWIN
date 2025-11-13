@@ -317,40 +317,46 @@ def export_approved_materials_to_excel(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def scrap_data(request):
-    role = request.GET.get('role', '').strip().lower()
-    queryset = Scrap.objects.filter(status__iexact='approved')  # Only approved
+# ✅ Always get only approved entries
+    queryset = Scrap.objects.filter(status__iexact='approved')
 
+    role = request.GET.get('role', '').strip().lower()
     if role:
         queryset = queryset.filter(role__iexact=role)
 
     if not queryset.exists():
         return HttpResponse("No approved data available.", content_type="text/plain")
 
-    data = list(queryset.values())
-    df = pd.DataFrame(data)
+    # ✅ Convert queryset to dataframe
+    df = pd.DataFrame(list(queryset.values()))
 
-    # Drop complex columns
+    # ✅ Remove any non-string-safe columns
     for col in df.columns:
         if df[col].apply(lambda x: isinstance(x, (dict, list, set))).any():
             df.drop(columns=[col], inplace=True)
 
     df = df.fillna('')
 
+    # ✅ Write cleanly to BytesIO
     buffer = io.BytesIO()
-    with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False, sheet_name='Users')
+    try:
+        with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='ApprovedScrap')
+        writer.close()
+    except Exception as e:
+        return HttpResponse(f"Excel generation failed: {str(e)}", content_type="text/plain")
 
+    # ✅ Prepare correct file response
     buffer.seek(0)
     response = HttpResponse(
         buffer.getvalue(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-    filename = f"{(role or 'scrap_management')}_users.xlsx"
+    filename = f"scrap_management_users.xlsx"
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     return response
-
 
 def _str_(self):
     return self.username
