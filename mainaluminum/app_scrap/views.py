@@ -314,49 +314,92 @@ def export_approved_materials_to_excel(request):
 
 
 
+# @csrf_exempt
+# @require_http_methods(['GET'])
+# def scrap_data(request):
+# # ✅ Always get only approved entries
+#     queryset = Scrap.objects.filter(status__iexact='approved')
+
+#     role = request.GET.get('role', '').strip().lower()
+#     if role:
+#         queryset = queryset.filter(role__iexact=role)
+
+#     if not queryset.exists():
+#         return HttpResponse("No approved data available.", content_type="text/plain")
+
+#     # ✅ Convert queryset to dataframe
+#     df = pd.DataFrame(list(queryset.values()))
+
+#     # ✅ Remove any non-string-safe columns
+#     for col in df.columns:
+#         if df[col].apply(lambda x: isinstance(x, (dict, list, set))).any():
+#             df.drop(columns=[col], inplace=True)
+
+#     df = df.fillna('')
+
+#     # ✅ Write cleanly to BytesIO
+#     buffer = io.BytesIO()
+#     try:
+#         with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+#             df.to_excel(writer, index=False, sheet_name='ApprovedScrap')
+#         writer.close()
+#     except Exception as e:
+#         return HttpResponse(f"Excel generation failed: {str(e)}", content_type="text/plain")
+
+#     # ✅ Prepare correct file response
+#     buffer.seek(0)
+#     response = HttpResponse(
+#         buffer.getvalue(),
+#         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+#     )
+
+#     filename = f"scrap_management_users.xlsx"
+#     response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+#     return response
+
+
 @csrf_exempt
 @require_http_methods(['GET'])
 def scrap_data(request):
-# ✅ Always get only approved entries
-    queryset = Scrap.objects.filter(status__iexact='approved')
+    approved = request.GET.get('approved', 'false').lower() == 'true'
+    role = request.GET.get('role', '').strip().lower()  # get role from URL if provided
 
-    role = request.GET.get('role', '').strip().lower()
+    # Base queryset
+    queryset = Scrap.objects.all()
+
+    # Apply approval filter
+    if approved:
+        queryset = queryset.filter(status__iexact='approved')
+
+    # Apply role filter (optional)
     if role:
         queryset = queryset.filter(role__iexact=role)
 
+    # If no records found
     if not queryset.exists():
-        return HttpResponse("No approved data available.", content_type="text/plain")
+        return HttpResponse("No data available.", content_type="text/plain")
 
-    # ✅ Convert queryset to dataframe
+    # Convert queryset to DataFrame
     df = pd.DataFrame(list(queryset.values()))
 
-    # ✅ Remove any non-string-safe columns
-    for col in df.columns:
-        if df[col].apply(lambda x: isinstance(x, (dict, list, set))).any():
-            df.drop(columns=[col], inplace=True)
-
-    df = df.fillna('')
-
-    # ✅ Write cleanly to BytesIO
+    # Write to Excel
     buffer = io.BytesIO()
-    try:
-        with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
-            df.to_excel(writer, index=False, sheet_name='ApprovedScrap')
-        writer.close()
-    except Exception as e:
-        return HttpResponse(f"Excel generation failed: {str(e)}", content_type="text/plain")
+    with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Users')
 
-    # ✅ Prepare correct file response
     buffer.seek(0)
     response = HttpResponse(
-        buffer.getvalue(),
+        buffer.read(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-    filename = f"scrap_management_users.xlsx"
+    # File name will reflect role automatically
+    filename = f"{role or 'all'}_users.xlsx"
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     return response
+
 
 def _str_(self):
     return self.username
