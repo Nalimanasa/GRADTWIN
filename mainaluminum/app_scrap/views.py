@@ -271,30 +271,69 @@ def export_approved_materials_to_excel(request):
     return response
 
 
+# @csrf_exempt
+# @require_http_methods(['GET'])
+# def scrap_data(request):
+#     approved = request.GET.get('approved', 'false').lower() == 'true'
+#     role = request.GET.get('role', '').strip().lower()
+#     queryset = Scrap.objects.all()
+#     if approved:
+#         queryset = queryset.filter(status__iexact='approved')
+#     if role:
+#         queryset = queryset.filter(role__iexact=role)
+
+#     if not queryset.exists():
+#         return HttpResponse("No data available.", content_type="text/plain")
+
+#     # Convert queryset to clean DataFrame
+#     data = list(queryset.values())
+#     df = pd.DataFrame(data)
+
+#     # Drop any invalid columns (Django internal fields or JSON objects)
+#     for col in df.columns:
+#         if df[col].apply(lambda x: isinstance(x, (dict, list, set))).any():
+#             df.drop(columns=[col], inplace=True)
+
+#     # Replace NaN/None to avoid Excel corruption
+#     df = df.fillna('')
+
+#     buffer = io.BytesIO()
+#     with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+#         df.to_excel(writer, index=False, sheet_name='Users')
+
+#     buffer.seek(0)
+#     response = HttpResponse(
+#         buffer.read(),
+#         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+#     )
+
+#     filename = f"{role or 'all'}_users.xlsx"
+#     response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+#     return response
+
+
+
 @csrf_exempt
 @require_http_methods(['GET'])
 def scrap_data(request):
-    approved = request.GET.get('approved', 'false').lower() == 'true'
     role = request.GET.get('role', '').strip().lower()
-    queryset = Scrap.objects.all()
-    if approved:
-        queryset = queryset.filter(status__iexact='approved')
+    queryset = Scrap.objects.filter(status__iexact='approved')  # Only approved
+
     if role:
         queryset = queryset.filter(role__iexact=role)
 
     if not queryset.exists():
-        return HttpResponse("No data available.", content_type="text/plain")
+        return HttpResponse("No approved data available.", content_type="text/plain")
 
-    # Convert queryset to clean DataFrame
     data = list(queryset.values())
     df = pd.DataFrame(data)
 
-    # Drop any invalid columns (Django internal fields or JSON objects)
+    # Drop complex columns
     for col in df.columns:
         if df[col].apply(lambda x: isinstance(x, (dict, list, set))).any():
             df.drop(columns=[col], inplace=True)
 
-    # Replace NaN/None to avoid Excel corruption
     df = df.fillna('')
 
     buffer = io.BytesIO()
@@ -303,14 +342,16 @@ def scrap_data(request):
 
     buffer.seek(0)
     response = HttpResponse(
-        buffer.read(),
+        buffer.getvalue(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-    filename = f"{role or 'all'}_users.xlsx"
+    filename = f"{(role or 'scrap_management')}_users.xlsx"
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     return response
+
+
 def _str_(self):
     return self.username
 
