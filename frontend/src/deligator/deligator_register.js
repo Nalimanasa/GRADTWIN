@@ -48,7 +48,8 @@ function Deligatorregister(){
         state:'',
         country:'',
         pincode:'',
-        address:''
+        address:'',
+        role:''
             });
              fetchItems();
         })

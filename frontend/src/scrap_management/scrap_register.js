@@ -48,7 +48,8 @@ function Scrapregister(){
         state:'',
         country:'',
         pincode:'',
-        address:''
+        address:'',
+        role:''
             });
              fetchItems();
         })
