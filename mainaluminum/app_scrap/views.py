@@ -390,7 +390,7 @@ def scrap_data(request):
 
     buffer.seek(0)
     response = HttpResponse(
-        buffer.read(),
+        buffer.getvalue(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
@@ -399,8 +399,6 @@ def scrap_data(request):
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     return response
-
-
 def _str_(self):
     return self.username
 

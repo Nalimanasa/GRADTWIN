@@ -300,7 +300,7 @@ def del_data(request):
 
     buffer.seek(0)
     response = HttpResponse(
-        buffer.read(),
+        buffer.getvalue(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
