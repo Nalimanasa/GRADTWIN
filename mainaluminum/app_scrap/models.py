@@ -16,7 +16,7 @@ class  Scrap(models.Model):
     status=models.CharField(max_length=100,default='pending')
     is_superuser=models.BooleanField(default=False)
     is_staff=models.BooleanField(default=False)
-    role = models.CharField(max_length=50, default='scrap management') 
+    role = models.CharField(max_length=50, default='scrapmanagement') 
     approved = models.BooleanField(default=False)  
 
 class Material(models.Model):
