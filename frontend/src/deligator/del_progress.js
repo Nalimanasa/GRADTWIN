@@ -11,14 +11,14 @@ function Progress() {
   }, []);
 
   const fetchItems = () => {
-    axios.get('https://gradtwin-backend.onrender.com/agent_material_view')
+    axios.get('https://gradtwin-backend.onrender.com/agent_material_view/')
       .then(res =>  setItems(res.data))
       .catch(err => console.error(err));
   };
   
    const approveItem = async (itemId) => {
     try {
-      await axios.post(`https://gradtwin-backend.onrender.com/del_material_view_Id/${itemId}/`);
+      await axios.post(`https://gradtwin-backend.onrender.com/agent_material_view_Id/${itemId}/`);
       // Remove the approved item from the list
       setItems(items.filter(item => item.id !==itemId));
       alert('Item approved successfully!');

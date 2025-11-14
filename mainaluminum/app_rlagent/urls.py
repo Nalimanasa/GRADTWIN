@@ -12,8 +12,7 @@ urlpatterns = [
     path('agent_approve/',Item_views.agent_approve,name='approve'),
     path('agent_material/',Item_views.agent_material,name='material'),
     path('agent_material_view/',Item_views.agent_material_view,name='materialview'),
-    path('agent_material_view_Id/<int:item_id>/',Item_views.agent_material_view_Id,name="materialview"),
+    path('agent_material_view_Id/<int:item_id>/',Item_views.agent_material_view_Id,name="material_view"),
     path('agent_material_approved/',Item_views.agent_material_approved,name="agentmaterialapproved"),
-    path('agent_data/?approve=true',Item_views.agent_data,name="registerd data"),
     path('agent_data/',Item_views.agent_data,name="registerd data")
 ]    

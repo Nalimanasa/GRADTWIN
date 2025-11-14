@@ -10,7 +10,7 @@ function Process() {
 
   const fetchItems = () => {
     axios
-      .get("https://gradtwin-backend.onrender.com/del_material_approved/")
+      .get("https://gradtwin-backend.onrender.com/agent_material_approved/")
       .then((response) => setItems(response.data))
       .catch((err) => console.error(err));
   };

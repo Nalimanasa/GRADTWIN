@@ -11,7 +11,7 @@ function Approve(){
   }, []);
 
   const fetchItems = () => {
-    axios.get(`http://127.0.0.1:8000/agent_approve/`)
+    axios.get(`https://gradtwin-backend.onrender.com/agent_approve/`)
       .then(res =>  setItems(res.data))
       .catch(err => console.error(err));
   };

@@ -12,8 +12,8 @@ urlpatterns = [
     path('del_approve/',deligator_views.del_approve,name='approve'),
     path('del_feedback/',deligator_views.del_feedback,name="feedback"),
     path('del_material_view/',deligator_views.del_material_view,name='materialview'),
-    path('del_material_view_Id/<int:item_id>/',deligator_views.del_material_view_Id,name="materialview"),
+    path('del_material_view_Id/<int:item_id>/',deligator_views.del_material_view_Id,name="material_view"),
     path('del_material_approved/',deligator_views.del_material_approved,name="agentmaterialapproved"),
-    path('del_process/',deligator_views.del_process,name="agent_process"),
+    path('del_process/',deligator_views.del_process,name="del_process"),
     path('del_data/',deligator_views.del_data,name="del_data"),
 ]    
