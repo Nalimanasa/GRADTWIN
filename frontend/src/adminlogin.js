@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState} from 'react';
-import './scrap_management/scarp.css'
+import './administrator/scarp.css'
 import axios from "axios";
 import Pending from './agent/agent_pending'
 

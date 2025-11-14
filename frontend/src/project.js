@@ -2,11 +2,11 @@ import React from 'react'
 import {useState} from 'react'
 import Home from './home.js'
 import Register from './agent/agent_register'
-import Deligatorregister from './deligator/deligator_register.js'
+import Deligatorregister from './processing_team/deligator_register.js'
 import Explore from './environment/explore.js'
 import admin from './pages/admin.png'
 import Details from './environment/eni_details.js'
-import Scrapregister from './scrap_management/scrap_register'
+import Scrapregister from './administrator/scrap_register'
 
 
 function Project(){
