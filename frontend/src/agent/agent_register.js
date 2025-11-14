@@ -68,7 +68,7 @@ function Register(){
             {!showlogin ?(
         <div><br/>
             <center>
-              <h1 style={{color:"red",backgroundColor:"whitesmoke"}}>REGISTER PAGE </h1>
+              <h1 style={{color:"red",backgroundColor:"whitesmoke"}}> AGENT REGISTER PAGE </h1>
                 <form
                  onSubmit={addItem}>
                     <center>

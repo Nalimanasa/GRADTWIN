@@ -62,7 +62,7 @@ function Scrapregister(){
             {!showlogin ?(
         <div><br/>
             <center>
-              <h1 style={{color:"red",backgroundColor:"whitesmoke"}}>REGISTER PAGE </h1>
+              <h1 style={{color:"red",backgroundColor:"whitesmoke"}}> scrap REGISTER PAGE </h1>
                 <form
                  onSubmit={addItem}>
                     <center>

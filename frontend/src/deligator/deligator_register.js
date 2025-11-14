@@ -62,7 +62,7 @@ function Deligatorregister(){
             {!showlogin ?(
         <div><br/>
             <center>
-              <h1 style={{color:"red",backgroundColor:"whitesmoke"}}>REGISTER PAGE </h1>
+              <h1 style={{color:"red",backgroundColor:"whitesmoke"}}> DELIGATOR REGISTER PAGE </h1>
                 <form
                  onSubmit={addItem}>
                     <center>

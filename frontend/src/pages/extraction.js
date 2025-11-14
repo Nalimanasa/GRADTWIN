@@ -1,20 +1,20 @@
 import React from 'react'
 import './main.css'
 import { useState } from 'react'
-import {Bar} from 'react-chartjs-2';
-import {
-    Chart as ChartJs,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-   Title,Tooltip,
-   Legend
-} from 'chart.js';
+// import {Bar} from 'react-chartjs-2';
+// import {
+//     Chart as ChartJs,
+//     CategoryScale,
+//     LinearScale,
+//     BarElement,
+//    Title,Tooltip,
+//    Legend
+// } from 'chart.js';
 import bayer from './bayer.png'
 import extract from './extract.webp'
 
 
-ChartJs.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend);
+// ChartJs.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend);
 
 function Extraction(){
      const[bauxite,setBauxite] = useState(100)
@@ -25,94 +25,94 @@ function Extraction(){
      const [result, setResult] = useState(null);
      
 
-     const handleSubmit = async (e) => {
-    e.preventDefault();
+//      const handleSubmit = async (e) => {
+//     e.preventDefault();
 
-     const payload = {
-    bauxite: Number(bauxite),
-    soda: Number(soda),
-    alumina: Number(alumina),
-    moisture: Number(moisture),
-    temperature: Number(temperature),
-  };
+//      const payload = {
+//     bauxite: Number(bauxite),
+//     soda: Number(soda),
+//     alumina: Number(alumina),
+//     moisture: Number(moisture),
+//     temperature: Number(temperature),
+//   };
 
-  console.log("Sending JSON:", payload);
+//   console.log("Sending JSON:", payload);
 
-  const response = await fetch("http://127.0.0.1:8000/api/feedback/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json", // critical
-      "Accept": "application/json",
-    },
-    body: JSON.stringify(payload), // must stringify
-  });
+//   const response = await fetch("http://127.0.0.1:8000/api/feedback/", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json", // critical
+//       "Accept": "application/json",
+//     },
+//     body: JSON.stringify(payload), // must stringify
+//   });
 
-  if (!response.ok) {
-    console.error("Backend error:", response.status);
-    const text = await response.text();
-    alert("Backend error: " + text);
-    return;
-  }
+//   if (!response.ok) {
+//     console.error("Backend error:", response.status);
+//     const text = await response.text();
+//     alert("Backend error: " + text);
+//     return;
+//   }
 
-  const data = await response.json();
-  console.log("Server response:", data);
-  setResult(data);
-};
-//  fixed parameters 
-     const digestionEff=0.95;
-     const clarificationloss=0.01;
-     const precipitationrecovery=0.92;
-     const calcination=0.01;
-     const naohperalumina=0.3;
-     const aloh3peral2o3=(2*78.003)/101.9613;
+//   const data = await response.json();
+//   console.log("Server response:", data);
+//   setResult(data);
+// };
+// //  fixed parameters 
+//      const digestionEff=0.95;
+//      const clarificationloss=0.01;
+//      const precipitationrecovery=0.92;
+//      const calcination=0.01;
+//      const naohperalumina=0.3;
+//      const aloh3peral2o3=(2*78.003)/101.9613;
 
-// calculations
-const drybauxite=bauxite * (1-moisture/100)
-const aluminabauxite=drybauxite * (alumina /100)
-const othersolids =drybauxite -aluminabauxite;
+// // calculations
+// const drybauxite=bauxite * (1-moisture/100)
+// const aluminabauxite=drybauxite * (alumina /100)
+// const othersolids =drybauxite -aluminabauxite;
 
-const aluminadissolved =aluminabauxite *digestionEff;
-const aluminaundissloved=aluminabauxite -aluminadissolved;
-const naohconsumed =aluminadissolved *naohperalumina;
+// const aluminadissolved =aluminabauxite *digestionEff;
+// const aluminaundissloved=aluminabauxite -aluminadissolved;
+// const naohconsumed =aluminadissolved *naohperalumina;
 
-const aluminalosttomud = aluminadissolved * clarificationloss;
-const aluminaavailable= aluminadissolved -aluminalosttomud;
+// const aluminalosttomud = aluminadissolved * clarificationloss;
+// const aluminaavailable= aluminadissolved -aluminalosttomud;
 
-const aloh3produced=(aluminaavailable *  aloh3peral2o3 ) * precipitationrecovery
-const aluminacalcined =(aloh3produced /aloh3peral2o3) * (1- calcination);
+// const aloh3produced=(aluminaavailable *  aloh3peral2o3 ) * precipitationrecovery
+// const aluminacalcined =(aloh3produced /aloh3peral2o3) * (1- calcination);
 
-const redmud =othersolids +aluminalosttomud;
+// const redmud =othersolids +aluminalosttomud;
 
-//data table 
-const results = [
-   ["bauxite",bauxite.toFixed(2)],
-   ["drybauxite,",drybauxite.toFixed(2)],
-   ["aluminabauxite",aluminabauxite.toFixed(2)],
-   ["aluminadissolved",aluminadissolved.toFixed(2)],
-   ["aluminaundissloved",aluminaundissloved.toFixed(2)],
-   ["naohconsumed",naohconsumed.toFixed(2)],
- ["aluminalosttomud",aluminalosttomud.toFixed(2)],
-   ["aloh3produced",aloh3produced.toFixed(2)],
-   ["aluminacalcined",aluminacalcined.toFixed(2)],
-   ["redmud",redmud.toFixed(2)],
-];
+// //data table 
+// const results = [
+//    ["bauxite",bauxite.toFixed(2)],
+//    ["drybauxite,",drybauxite.toFixed(2)],
+//    ["aluminabauxite",aluminabauxite.toFixed(2)],
+//    ["aluminadissolved",aluminadissolved.toFixed(2)],
+//    ["aluminaundissloved",aluminaundissloved.toFixed(2)],
+//    ["naohconsumed",naohconsumed.toFixed(2)],
+//  ["aluminalosttomud",aluminalosttomud.toFixed(2)],
+//    ["aloh3produced",aloh3produced.toFixed(2)],
+//    ["aluminacalcined",aluminacalcined.toFixed(2)],
+//    ["redmud",redmud.toFixed(2)],
+// ];
 
-//chart data
-const chartdata={
-    labels:['aloh3 in feed','al2o3 dissolved','al2o3 calcined','redmud'],
-    datasets:[
-        {
-            labels:"mass",
-            data:[aluminabauxite ,aluminadissolved ,aluminacalcined ,redmud],
-            backgroundColor:['blue','green','orange','red'],
-        }
-    ]
-}
-const feedbackMsg = () => {
-  if (aluminacalcined < aluminabauxite * 0.35) return "Yield is low, increase digestion efficiency.";
-  if (redmud > bauxite * 0.6) return "Red mud is high, optimize soda usage.";
-  return "Process is near optimal!";
-};
+// //chart data
+// const chartdata={
+//     labels:['aloh3 in feed','al2o3 dissolved','al2o3 calcined','redmud'],
+//     datasets:[
+//         {
+//             labels:"mass",
+//             data:[aluminabauxite ,aluminadissolved ,aluminacalcined ,redmud],
+//             backgroundColor:['blue','green','orange','red'],
+//         }
+//     ]
+// }
+// const feedbackMsg = () => {
+//   if (aluminacalcined < aluminabauxite * 0.35) return "Yield is low, increase digestion efficiency.";
+//   if (redmud > bauxite * 0.6) return "Red mud is high, optimize soda usage.";
+//   return "Process is near optimal!";
+// };
 
 
 //onsole.log(typeof bauxite, bauxite);
@@ -158,14 +158,14 @@ Calcination:
  The precipitated aluminum hydroxide is filtered, washed, and then heated to a high temperature in a calciner. This process removes the water molecules, yielding pure alumina (Al₂O₃). 
 </p>
 </div>
-  <main>
+  {/* <main>
     <center>
     <div className="p-6 max-w-3xl mx-auto bg-white shadow-lg rounded-2xl">
       <h1 className="text-2xl font-bold mb-4 text-center">
         Bayer Process Simulator
       </h1>
 
-      {/* Input Section */}
+      
       <div className="grid grid-cols-3 gap-4 mb-6">
 <form onSubmit={handleSubmit} style={styles.form} >
  <table>
@@ -268,11 +268,11 @@ Calcination:
      </section>
  </div>
  </center>
-</main>
+</main> */}
 <div>
     </div>
     </div>
-    )
+        )
   }
 
 
