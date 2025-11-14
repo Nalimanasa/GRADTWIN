@@ -1,17 +1,17 @@
 #table ,.th,.td{
-      border:1px solid white;
+      border:1px solid black;
       width:400px;
 }
 
 .pending{
     text-align:center;
     background-image:url('https://c8.alamy.com/comp/2TBN2G2/cross-sections-of-extruded-aluminium-or-aluminum-channels-for-use-in-manufacturing-and-fabrication-2TBN2G2.jpg');
-    color:white;
+    color:black;
     background-size: cover;
     background-position: center;
     height:500px;
     width:100%;
-    border:1px solid white;
+    border:1px solid black;
    
 }
 .approved{
