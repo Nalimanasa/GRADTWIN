@@ -58,7 +58,7 @@ function Process() {
               backgroundSize:" cover",
             backgroundPosition: "center",width:"100%"
         }}> 
-      <h2 style={{ textAlign: "center" }}>Approved Material List</h2>
+      <h2 style={{ textAlign: "center",color:"white" }}>Approved Material List</h2>
       <table id="table" style={{ textAlign: "center", borderCollapse: "collapse", margin: "0 auto" }}>
         <tbody>
           <tr>

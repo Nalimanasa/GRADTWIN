@@ -34,7 +34,7 @@ function Progress() {
   return (
     <div>
         <center>
-              <h2 style={{color:"red",textAlign:"center"}}>PENDING LIST</h2>
+              <h2 style={{color:"white",textAlign:"center"}}>PENDING LIST</h2>
          <table  id="table" style={{textAlign:"center"}}>
              <tbody>
            <tr>

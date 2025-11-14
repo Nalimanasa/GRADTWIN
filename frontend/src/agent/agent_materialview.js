@@ -29,7 +29,7 @@ function Material() {
     <div style={{backgroundImage:`url(https://www.shutterstock.com/image-photo/factory-aluminum-pvc-windows-doors-260nw-1055814968.jpg)`,
             backgroundSize:" cover",
             backgroundPosition: "center",width:"100%"}}>
-      <h2 style={{ color: "red", textAlign: "center" }}>Material View</h2>
+      <h2 style={{ color: "white", textAlign: "center" }}>Material View</h2>
       <table style={style.table}>
         <tbody>
           <tr>
