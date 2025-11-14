@@ -30,7 +30,7 @@ function Residue() {
   }
 
   return (
-    <div style={{ textAlign: "center" ,color:"white"}}>
+    <div style={{ textAlign: "center" ,color:"white"}}><br/>
       <h2>Residue Process Result</h2>
       {result.aluminum_yield ? (
         <div>

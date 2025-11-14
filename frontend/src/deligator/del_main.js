@@ -28,7 +28,7 @@ function Base(){
         }
     }
     return(
-        <div style={{backgroundImage:`url(https://c8.alamy.com/comp/2SACD29/stacked-aluminum-extrusions-forming-an-industrial-metallic-background-3d-2SACD29.jpg)`,
+        <div style={{backgroundImage:`url(https://www.shutterstock.com/image-illustration/rolls-metal-sheet-zinc-aluminium-260nw-1810775977.jpg)`,
               backgroundSize:" cover",
             backgroundPosition: "center",height:"100%",width:"100%"
         }}>

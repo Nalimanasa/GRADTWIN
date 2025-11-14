@@ -54,11 +54,9 @@ function Process() {
   };
 
   return (
-    <div style={{backgroundImage:`url(https://c8.alamy.com/comp/2SACD29/stacked-aluminum-extrusions-forming-an-industrial-metallic-background-3d-2SACD29.jpg)`,
-              backgroundSize:" cover",
-            backgroundPosition: "center",width:"100%"
-        }}> 
-      <h2 style={{ textAlign: "center",color:"white" }}>Approved Material List</h2>
+    <div>
+      <br/><br/>
+      <h2 style={{ textAlign: "center",color:"black" }}>Approved Material List</h2>
       <table id="table" style={{ textAlign: "center", borderCollapse: "collapse", margin: "0 auto" }}>
         <tbody>
           <tr>

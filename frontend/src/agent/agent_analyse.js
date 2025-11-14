@@ -45,19 +45,19 @@ function Analyse() {
       <h1 className="text-2xl font-bold mb-4 text-center">Bayer Process Simulator</h1>
 
       <form onSubmit={handlesubmit} style={styles.form}>
-        <label>Bauxite Feed (t)</label>
+        <label><b>Bauxite Feed (t)</b></label>
         <input type="number" value={bauxite} onChange={(e) => setBauxite(e.target.value)} />
 
-        <label>Alumina %</label>
+        <label><b>Alumina %</b></label>
         <input type="number" value={alumina} onChange={(e) => setAlumina(e.target.value)} />
 
-        <label>Moisture %</label>
+        <label><b>Moisture %</b></label>
         <input type="number" value={moisture} onChange={(e) => setMoisture(e.target.value)} />
 
-        <label>Caustic Soda (kg)</label>
+        <label><b>Caustic Soda (kg)</b></label>
         <input type="number" value={soda} onChange={(e) => setSoda(e.target.value)} />
 
-        <label>Temperature (°C)</label>
+        <label><b>Temperature (°C)</b></label>
         <input type="number" value={temperature} onChange={(e) => setTemperature(e.target.value)} />
 
         <button type="submit"
@@ -74,6 +74,8 @@ const styles = {
     gap: "10px",
     maxWidth: "300px",
     margin: "auto",
+    color:"white",
+    fontSize:"large",
   },
 };
 
