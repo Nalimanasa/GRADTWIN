@@ -247,7 +247,7 @@ def export_approved_materials_to_excel(request):
     ws.append(["ID", "Bauxite", "Alumina", "Moisture", "Soda", "Temperature", "Approved On"])
 
     # Fetch only approved materials (adjust field name if different)
-  approved_materials = Material.objects.filter(status__iexact="approved")
+   approved_materials = Material.objects.using("rlagent").filter(status__iexact="approved")
 
     # Add each approved record to Excel
     for m in approved_materials:
