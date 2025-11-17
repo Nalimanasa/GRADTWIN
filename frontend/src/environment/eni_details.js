@@ -96,7 +96,7 @@ useEffect (()=>{
                         back
                       </li> 
                       <li> 
-            <button  onClick={() => window.open("https://gradtwin-backend.onrender.com/agent_material_excel/")}
+            <button  onClick={() => window.open("https://gradtwin-backend.onrender.com/agent_material_approved/")}
                        style={{ padding: "8px 16px",
                                 backgroundColor: "#28a745",
                                 color: "white",
