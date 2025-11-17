@@ -11,6 +11,6 @@ urlpatterns = [
     path('scrap_pending_Id/<int:item_id>/',scrap_views.scrap_pending_Id,name='pending_Id'),
     path('scrap_approve/',scrap_views.scrap_approve,name='approve'),
     path('scrap_feedback/',scrap_views.scrap_feedback,name="feedback"),
-    path("agent_material_excel/", scrap_views.export_approved_materials_to_excel, name="agent_material_excel"),
+    path("export_approved_excel/", scrap_views.export_approved_materials_to_excel, name="export_approved_excel"),
     path('scrap_data/',scrap_views.scrap_data,name="scrap_data")
  ]    

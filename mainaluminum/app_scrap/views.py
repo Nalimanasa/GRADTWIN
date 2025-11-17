@@ -241,7 +241,7 @@ def export_approved_materials_to_excel(request):
     # Create Excel workbook
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws.title = "Approved Materials"
+    ws.title = "approved"
 
     # Header row
     ws.append(["ID", "Bauxite", "Alumina", "Moisture", "Soda", "Temperature", "Approved On"])
