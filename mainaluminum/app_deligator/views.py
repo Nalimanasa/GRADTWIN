@@ -4,7 +4,8 @@ from django.http import HttpResponse ,JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
-from app_deligator.models import Deligator ,Material
+from app_deligator.models import Deligator 
+from app_rlagent.models import Material
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, parser_classes

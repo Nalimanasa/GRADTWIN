@@ -4,7 +4,7 @@ from django.http import HttpResponse ,JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
-from app_scrap.models import Scrap ,Material3
+from app_scrap.models import Scrap 
 from app_rlagent.models import Material
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
@@ -139,14 +139,14 @@ def scrap_process(request):
         if not item_id:
             return JsonResponse({"error": "item_id is required"}, status=400)
 
-        item = Material3.objects.get(id=item_id)  # ✅ Lookup by ID
+        item = Material.objects.get(id=item_id)  # ✅ Lookup by ID
 
         # ✅ Example logic - update status
         item.status = "Processed"
         item.save()
 
         return JsonResponse({"message": "Material processed successfully"})
-    except Material3.DoesNotExist:
+    except Material.DoesNotExist:
         return JsonResponse({"error": "Material not found"}, status=404)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
@@ -248,7 +248,7 @@ def export_approved_materials_to_excel(request):
     ws.append(["ID", "Bauxite", "Alumina", "Moisture", "Soda", "Temperature", "Approved On"])
 
     # Fetch only approved materials (adjust field name if different)
-   approved_materials = Material.objects.filter(status="approved").order_by('-id')
+    approved_materials = Material.objects.filter(status="approved").order_by('-id')
 
     # Add each approved record to Excel
     for m in approved_materials:

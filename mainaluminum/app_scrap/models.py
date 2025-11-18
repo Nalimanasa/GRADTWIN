@@ -19,12 +19,12 @@ class  Scrap(models.Model):
     role = models.CharField(max_length=50, default='scrapmanagement') 
     approved = models.BooleanField(default=False)  
 
-class Material3(models.Model):
-    bauxite=models.FloatField(max_length=50 ,default="0")
-    alumina=models.FloatField(max_length=50 ,default="0")
-    moisture=models.FloatField(max_length=50 ,default="0")
-    soda=models.FloatField(max_length=50 ,default="0")
-    temperature=models.FloatField(max_length=50 ,default="0")
-    residue = models.FloatField(null=True, blank=True)
-    status=models.CharField(max_length=50,default="pending")
+# class Material3(models.Model):
+#     bauxite=models.FloatField(max_length=50 ,default="0")
+#     alumina=models.FloatField(max_length=50 ,default="0")
+#     moisture=models.FloatField(max_length=50 ,default="0")
+#     soda=models.FloatField(max_length=50 ,default="0")
+#     temperature=models.FloatField(max_length=50 ,default="0")
+#     residue = models.FloatField(null=True, blank=True)
+#     status=models.CharField(max_length=50,default="pending")
 
