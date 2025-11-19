@@ -253,7 +253,6 @@ def export_approved_materials_to_excel(request):
     # Add each approved record to Excel
     for m in approved_materials:
         ws.append([
-            m.id,
             m.bauxite,
             m.alumina,
             m.moisture,
