@@ -245,7 +245,7 @@ def export_approved_materials_to_excel(request):
     ws.title = "approved"
 
     # Header row
-    ws.append(["ID", "Bauxite", "Alumina", "Moisture", "Soda", "Temperature", "Approved On"])
+    ws.append([ "Bauxite", "Alumina", "Moisture", "Soda", "Temperature"])
 
     # Fetch only approved materials (adjust field name if different)
     approved_materials = Material.objects.filter(status="approved").order_by('-id')
